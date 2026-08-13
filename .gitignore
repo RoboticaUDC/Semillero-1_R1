@@ -1,0 +1,27 @@
+# Secretos: la API key vive aqui, nunca en el codigo ni en git
+.env
+
+# Modelos de voz (Vosk STT + Piper TTS): pesados y descargables, no se versionan
+modelos_voz/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Build de C++ (regenerable con cmake)
+build/
+cpp/**/build/
+bin/
+
+# Clones externos: cada uno es su propio repo git, no se versionan aqui
+third_party/
+
+# Salidas de MuJoCo / capturas
+MUJOCO_LOG.TXT
+*.png.tmp
+screenshot*.png
+
+# Logs de entrenamiento
+logs/

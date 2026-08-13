@@ -1,0 +1,22 @@
+# Entorno del R1: simulacion, teleoperacion por camara y herramientas.
+# Corresponde al conda env `r1mujoco` (python 3.10).
+#
+#   conda create -n r1mujoco python=3.10
+#   conda activate r1mujoco
+#   pip install -r requirements-r1.txt
+#
+# NO mezclar con requirements.txt: ese fija numpy 1.23 / mujoco 3.2 para el
+# codigo original del paper (G1) y es incompatible con estas versiones.
+
+mujoco==3.10.0
+numpy==2.2.6
+torch==2.12.1
+glfw==2.10.0
+scipy==1.15.3
+
+# solo para teleop/ y scripts/tools/test_pose.py (vision por camara)
+mediapipe==0.10.14
+opencv-contrib-python==5.0.0.93
+
+# solo para banda_r1.py (visualizacion del LIDAR y el mapa)
+matplotlib==3.10.9

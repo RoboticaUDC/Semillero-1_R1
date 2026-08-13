@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amo"
+version = "0.2.0"
+description = "AMO (G1) + control, teleoperacion y despliegue del robot R1"
+requires-python = ">=3.8"
+
+# Las dependencias reales estan en requirements.txt (G1/paper) y
+# requirements-r1.txt (R1, teleoperacion, vision), porque cada flujo usa un
+# entorno conda distinto con versiones incompatibles entre si.
+dependencies = []
+
+[tool.setuptools]
+# Solo se empaqueta el codigo compartido; scripts/ son ejecutables sueltos.
+packages = ["amo", "amo.control"]
