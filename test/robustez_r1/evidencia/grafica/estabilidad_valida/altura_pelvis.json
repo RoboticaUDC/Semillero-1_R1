@@ -1,0 +1,9 @@
+{
+  "frames": 60,
+  "gif": "evidencia/grafica/estabilidad_valida/animacion.gif",
+  "z_inicial_m": 0.74,
+  "z_final_m": 0.743,
+  "z_min_m": 0.74,
+  "se_cayo": false,
+  "pasos": 601
+}

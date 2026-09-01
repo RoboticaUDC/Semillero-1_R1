@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "{\"vx\": 0.4, \"wz\": 0.0, \"duracion_s\": 3}",
+  "defecto": "Ninguno: linea base de control."
+}

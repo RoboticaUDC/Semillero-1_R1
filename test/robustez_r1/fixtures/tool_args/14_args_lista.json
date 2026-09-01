@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "[0.5, 3]",
+  "defecto": "Argumentos como lista posicional en vez de objeto."
+}

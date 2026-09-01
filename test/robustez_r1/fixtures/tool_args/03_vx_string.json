@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "{\"vx\": \"rapido\", \"duracion_s\": 3}",
+  "defecto": "Velocidad como palabra en vez de numero."
+}

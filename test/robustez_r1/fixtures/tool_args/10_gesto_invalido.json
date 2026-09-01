@@ -1,0 +1,5 @@
+{
+  "herramienta": "gesto",
+  "argumentos_crudos": "{\"nombre\": \"backflip\"}",
+  "defecto": "Gesto fuera del enum GESTOS_VALIDOS."
+}

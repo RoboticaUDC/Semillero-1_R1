@@ -1,0 +1,45 @@
+=== play_amo_stable (marcha programada) ===
+
+[INFO] dt=1.0ms  nu=23
+[CONTROLES]
+  W/S = adelante/atrás    A/D = lateral
+  Q/E = girar             Z/X = altura
+  SPACE = parar
+
+[ ok ] g1_stable_valida       -> ejecuto camina/se mantiene de pie
+
+[INFO] dt=1.0ms  nu=23
+[CONTROLES]
+  W/S = adelante/atrás    A/D = lateral
+  Q/E = girar             Z/X = altura
+  SPACE = parar
+
+[ ok ] g1_stable_camina       -> ejecuto camina/se mantiene de pie
+[crash-esp] g1_stable_xml_roto     -> crasheo_esperado ValueError: XML parse error 15:
+Error=XML_ERROR_PARSING ErrorID=15 (0x
+
+=== banda_v2_1 (equilibrio) ===
+📁 Cargando escena...
+
+===================================
+🤖 G1 ESTABLE + SALUDO
+===================================
+F1  -> Saludar
+F6  -> Neutral
+ESC -> Salir
+===================================
+
+🚀 Simulación iniciada
+✅ Finalizado
+[BOOM] g1_banda_valida        -> crasheo ValueError: operands could not be broadcast together with shapes (8,) 
+📁 Cargando escena...
+[crash-esp] g1_banda_xml_roto      -> crasheo_esperado ValueError: XML parse error 15:
+Error=XML_ERROR_PARSING ErrorID=15 (0x
+
+=== play_amo (requiere CUDA) ===
+False
+0
+[n/a ] g1_play_amo_cuda       -> no_ejecutable AssertionError: Torch not compiled with CUDA enabled
+
+Evidencia G1 en: /home/idc/AMO/test/robustez_r1/evidencia/grafica_g1
+   informe: /home/idc/AMO/test/robustez_r1/evidencia/grafica_g1/informe_g1.md

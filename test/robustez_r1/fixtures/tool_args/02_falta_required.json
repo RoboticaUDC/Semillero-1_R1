@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "{\"vx\": 0.5}",
+  "defecto": "Falta 'duracion_s', que el esquema declara required."
+}

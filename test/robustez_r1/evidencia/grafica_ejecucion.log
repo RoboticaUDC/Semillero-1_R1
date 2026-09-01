@@ -1,0 +1,151 @@
+
+=== [VALIDA] estabilidad_valida: banda_estabilidad_r1: controlador PD, entrada valida ===
+📁 Cargando R1...
+🤖 R1 Stable Controller listo
+🚀 R1 estable iniciado (tipo G1)
+✅ terminado
+    -> 60 frames, z_min=0.74 m -> se mantuvo de pie
+
+=== [ROTA]   estabilidad_xml_roto: banda_estabilidad_r1 con XML de malla inexistente ===
+📁 Cargando R1...
+    -> CRASH esperado: ValueError: Error: Error opening file '../../../../../assets/r1_description/meshes/NO_EXISTE_pelvis_li
+
+=== [VALIDA] camina_valida: play_r1_camina_brazos: politica r1_v2, entrada valida ===
+Cargando modelo: /home/idc/AMO/assets/r1.xml
+Cargando politica: /home/idc/AMO/policies/r1_policy_v2.pt
+
+== R1 camina + brazos ==
+Flechas: mover | Q/E: lateral | ESPACIO: parar | R: reset
+F1 saludar | F2 apuntar | F3 cargar | F4 cruz | F5 guardia | F6 neutral | F7 pausa | ESC salir
+
+
+Fin
+    -> 60 frames, z_min=0.739 m -> se mantuvo de pie
+
+=== [ESTRES] camina_estres: play_r1_camina_brazos: comando de caminar vx=0.9 (limite) ===
+Cargando modelo: /home/idc/AMO/assets/r1.xml
+Cargando politica: /home/idc/AMO/policies/r1_policy_v2.pt
+
+== R1 camina + brazos ==
+Flechas: mover | Q/E: lateral | ESPACIO: parar | R: reset
+F1 saludar | F2 apuntar | F3 cargar | F4 cruz | F5 guardia | F6 neutral | F7 pausa | ESC salir
+
+
+Fin
+    -> 180 frames, z_min=0.697 m -> se mantuvo de pie
+
+=== [ROTA]   camina_politica_rota: play_r1_camina_brazos con politica .pt truncada ===
+Cargando modelo: /home/idc/AMO/assets/r1.xml
+Cargando politica: /home/idc/AMO/test/robustez_r1/fixtures/politicas/r1/03_truncado.pt
+    -> CRASH esperado: RuntimeError: PytorchStreamReader failed reading zip archive: failed finding central directory. This is 
+
+=== [VALIDA] isaac_valida: play_r1_isaac: politica r1_v2, entrada valida ===
+Cargando modelo: /home/idc/AMO/assets/r1.xml
+Cargando politica: /home/idc/AMO/policies/r1_policy_v2.pt
+
+== R1 con politica NATIVA de Isaac ==
+Flechas: vx/giro | Q/E: lateral | ESPACIO: parar | R: reset | ESC: salir
+
+
+Fin
+    -> 60 frames, z_min=0.739 m -> se mantuvo de pie
+
+=== [ESTRES] isaac_estres: play_r1_isaac: comando de caminar vx=0.9 (limite) ===
+Cargando modelo: /home/idc/AMO/assets/r1.xml
+Cargando politica: /home/idc/AMO/policies/r1_policy_v2.pt
+
+== R1 con politica NATIVA de Isaac ==
+Flechas: vx/giro | Q/E: lateral | ESPACIO: parar | R: reset | ESC: salir
+
+
+Fin
+    -> 180 frames, z_min=0.698 m -> se mantuvo de pie
+
+=== [ROTA]   isaac_xml_roto: play_r1_isaac con XML mal cerrado ===
+Cargando modelo: /home/idc/AMO/test/robustez_r1/fixtures/escenas/r1/01_xml_mal_cerrado.xml
+    -> CRASH esperado: ValueError: XML parse error 15:
+Error=XML_ERROR_PARSING ErrorID=15 (0xf) Line number=3
+
+
+=== [VALIDA] banda_r1_valida: banda_r1: AMO+adaptador sobre R1, entrada valida ===
+📁 Cargando: /home/idc/AMO/assets/r1.xml
+   Bodies: 26 | Joints: 25 | Actuadores: 24
+ℹ️  Actuadores de banda no encontrados en r1.xml (se ignoran)
+ℹ️  Actuadores de brazo externo no encontrados en r1.xml (se ignoran)
+🦾 ArmController inicializado
+   F1=Saludar  F2=Apuntar  F3=Cargar  F4=Cruz  F5=Guardia  F6=Neutral  F7=Pausa  F8=Info
+🖥️ Inicializando viewer...
+⚠️ LIDAR 2D: No se encontraron sensores lidar_* en r1.xml
+🗺️ Mapa: 600x600 celdas
+
+=================================================================
+🤖 R1 v1 | LIDAR | BANDAS | BRAZO | SECUENCIAS DE BRAZOS
+=================================================================
+MOVER    : ↑↓←→  Q/E lateral  Z/X altura  ENTER=pausa
+TORSO    : J/U yaw  K/I pitch  L/O roll
+BRAZOS   : F1=👋Saludar  F2=👉Apuntar  F3=📦Cargar
+           F4=✚Cruz     F5=🥊Guardia  F6=Neutral  F7=⏸
+           F8=Info pose brazos
+BANDAS   : 1/2/3 (B1)  4/5/6 (B2)
+BRAZO EXT: R/F T/G Y/H W/S A/D  N=home ,=pick .=place
+GRIPPER  : ESPACIO
+SENSORES : V=LIDAR  M=Mapa  P=Cámara  B=Print  C=Clear
+SALIR    : ESC
+=================================================================
+
+
+🚀 Simulación iniciada!
+🧍 Robot en reposo — presiona ↑ para caminar
+🦾 Prueba F1 para ver saludar al robot
+
+✅ Finalizado
+    -> 60 frames, z_min=0.712 m -> se mantuvo de pie
+
+=== [ESTRES] banda_r1_estres: banda_r1: comando de caminar vx=0.9 (limite) ===
+📁 Cargando: /home/idc/AMO/assets/r1.xml
+   Bodies: 26 | Joints: 25 | Actuadores: 24
+ℹ️  Actuadores de banda no encontrados en r1.xml (se ignoran)
+ℹ️  Actuadores de brazo externo no encontrados en r1.xml (se ignoran)
+🦾 ArmController inicializado
+   F1=Saludar  F2=Apuntar  F3=Cargar  F4=Cruz  F5=Guardia  F6=Neutral  F7=Pausa  F8=Info
+🖥️ Inicializando viewer...
+⚠️ LIDAR 2D: No se encontraron sensores lidar_* en r1.xml
+🗺️ Mapa: 600x600 celdas
+
+=================================================================
+🤖 R1 v1 | LIDAR | BANDAS | BRAZO | SECUENCIAS DE BRAZOS
+=================================================================
+MOVER    : ↑↓←→  Q/E lateral  Z/X altura  ENTER=pausa
+TORSO    : J/U yaw  K/I pitch  L/O roll
+BRAZOS   : F1=👋Saludar  F2=👉Apuntar  F3=📦Cargar
+           F4=✚Cruz     F5=🥊Guardia  F6=Neutral  F7=⏸
+           F8=Info pose brazos
+BANDAS   : 1/2/3 (B1)  4/5/6 (B2)
+BRAZO EXT: R/F T/G Y/H W/S A/D  N=home ,=pick .=place
+GRIPPER  : ESPACIO
+SENSORES : V=LIDAR  M=Mapa  P=Cámara  B=Print  C=Clear
+SALIR    : ESC
+=================================================================
+
+
+🚀 Simulación iniciada!
+🧍 Robot en reposo — presiona ↑ para caminar
+🦾 Prueba F1 para ver saludar al robot
+
+✅ Finalizado
+    -> 180 frames, z_min=0.073 m -> SE CAYO / inestable
+
+=== [ROTA]   banda_r1_stats_rotos: banda_r1 con stats de normalizacion sin 'input_std' ===
+📁 Cargando: /home/idc/AMO/assets/r1.xml
+   Bodies: 26 | Joints: 25 | Actuadores: 24
+ℹ️  Actuadores de banda no encontrados en r1.xml (se ignoran)
+ℹ️  Actuadores de brazo externo no encontrados en r1.xml (se ignoran)
+🦾 ArmController inicializado
+   F1=Saludar  F2=Apuntar  F3=Cargar  F4=Cruz  F5=Guardia  F6=Neutral  F7=Pausa  F8=Info
+🖥️ Inicializando viewer...
+⚠️ LIDAR 2D: No se encontraron sensores lidar_* en r1.xml
+🗺️ Mapa: 600x600 celdas
+    -> CRASH esperado: KeyError: 'input_std'
+
+Evidencia grafica en: /home/idc/AMO/test/robustez_r1/evidencia/grafica
+   informe: /home/idc/AMO/test/robustez_r1/evidencia/grafica/informe_grafica.md

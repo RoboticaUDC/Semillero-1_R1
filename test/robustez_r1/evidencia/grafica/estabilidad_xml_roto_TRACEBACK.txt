@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica.py", line 209, in corrida_rota
+    env = construir()
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica.py", line 242, in <lambda>
+    lambda: be.R1StableEnv(xml_path=XML_ROTO_MALLA),
+  File "/home/idc/AMO/scripts/r1/banda_estabilidad_r1.py", line 89, in __init__
+    self.model = mujoco.MjModel.from_xml_path(xml_path)
+ValueError: Error: Error opening file '../../../../../assets/r1_description/meshes/NO_EXISTE_pelvis_link.STL'

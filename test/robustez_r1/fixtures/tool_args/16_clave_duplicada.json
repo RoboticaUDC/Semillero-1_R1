@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "{\"duracion_s\": 2, \"duracion_s\": 25}",
+  "defecto": "Clave repetida en el JSON: gana la ultima, silenciosamente."
+}

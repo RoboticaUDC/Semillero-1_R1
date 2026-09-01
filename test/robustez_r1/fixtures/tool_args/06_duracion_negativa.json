@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "{\"vx\": 0.3, \"duracion_s\": -5}",
+  "defecto": "Duracion negativa."
+}

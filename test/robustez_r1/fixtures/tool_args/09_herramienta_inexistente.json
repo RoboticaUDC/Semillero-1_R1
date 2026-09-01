@@ -1,0 +1,5 @@
+{
+  "herramienta": "volar",
+  "argumentos_crudos": "{\"altura_m\": 3}",
+  "defecto": "El LLM invoca una herramienta fuera del catalogo cerrado."
+}

@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "{\"vx\": \"0.5\", \"duracion_s\": \"3\"}",
+  "defecto": "Numeros enviados como strings."
+}

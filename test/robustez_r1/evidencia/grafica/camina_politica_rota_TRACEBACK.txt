@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica.py", line 209, in corrida_rota
+    env = construir()
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica.py", line 259, in <lambda>
+    lambda: cb.R1CaminaBrazos(policy_path=PT_ROTO, device="cpu"),
+  File "/home/idc/AMO/scripts/r1/play_r1_camina_brazos.py", line 127, in __init__
+    self.policy = torch.jit.load(policy_path, map_location=device)
+  File "/home/idc/miniconda3/envs/r1mujoco/lib/python3.10/site-packages/torch/jit/_serialization.py", line 192, in load
+    cpp_module = torch._C.import_ir_module(
+RuntimeError: PytorchStreamReader failed reading zip archive: failed finding central directory. This is an internal miniz error. If you are seeing this error, there is a high likelihood that your checkpoint file is corrupted. This can happen if the checkpoint was not saved properly, was transferred incorrectly, or the file was modified after saving.

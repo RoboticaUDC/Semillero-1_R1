@@ -35,13 +35,17 @@ directamente: lee un snapshot que publica el bucle a 10 Hz.
 EL BACKEND DE LLM ES INTERCAMBIABLE
 ===================================
 Todo lo especifico de un proveedor esta aislado en una subclase de
-`BackendLLM`. Hoy vienen tres:
+`BackendLLM`. Hoy vienen cuatro:
 
   * `simulado`  — sin API key, sin red, reglas por palabras clave.
                   Sirve para demostrar el sistema completo funcionando YA.
+  * `openai`    — GPT via el SDK oficial (`pip install openai`).
   * `anthropic` — Claude via el SDK oficial (`pip install anthropic`).
   * `plantilla` — esqueleto marcado con TODO para enchufar CUALQUIER otra API.
                   Son 3 metodos. Ver la clase `BackendPlantilla`.
+
+La key sale del `.env` de la raiz del repo (ver mas abajo), que esta en
+.gitignore; las variables ya exportadas en el entorno mandan sobre el .env.
 
 USO
 ===
@@ -50,13 +54,18 @@ USO
     # 1. Demo sin API key (funciona tal cual, ahora mismo):
     python scripts/r1/play_r1_ia.py
 
-    # 2. Con Claude:
+    # 2. Con ChatGPT:
+    pip install openai
+    export OPENAI_API_KEY="sk-proj-..."
+    python scripts/r1/play_r1_ia.py --backend openai
+
+    # 3. Con Claude:
     pip install anthropic
     export ANTHROPIC_API_KEY="sk-ant-..."
     python scripts/r1/play_r1_ia.py --backend anthropic
 
-    # 3. Probar solo el cableado del LLM, sin levantar MuJoCo:
-    python scripts/r1/play_r1_ia.py --backend anthropic --sin-sim
+    # 4. Probar solo el cableado del LLM, sin levantar MuJoCo:
+    python scripts/r1/play_r1_ia.py --backend openai --sin-sim
 
 TECLADO
 =======
@@ -697,7 +706,164 @@ class BackendAnthropic(BackendLLM):
 
 
 # -----------------------------------------------------------------------------
-# Backend 3: PLANTILLA — enchufa aqui la API que elijas
+# Backend 3: OPENAI (ChatGPT)
+# -----------------------------------------------------------------------------
+
+
+class BackendOpenAI(BackendLLM):
+    """GPT via el SDK oficial de OpenAI, con tool calling y memoria.
+
+    Mismo bucle manual que `BackendAnthropic` y misma caja de herramientas
+    neutra; lo unico que cambia es el dialecto:
+
+        Anthropic : herramienta = {"name", "description", "input_schema"}
+                    resultado   = bloque tool_result dentro de un mensaje user
+        OpenAI    : herramienta = {"type": "function", "function": {...}}
+                    resultado   = mensaje aparte con role "tool"
+
+    Y que aqui los argumentos llegan como STRING JSON, no como dict: hay que
+    parsearlos, y hacerlo con red debajo porque el modelo puede mandar JSON
+    invalido y eso no debe tumbar al robot.
+    """
+
+    nombre = "openai"
+    MODELO_POR_DEFECTO = "gpt-5-mini"
+    MAX_VUELTAS = 6  # tope de ciclos de herramientas por turno
+
+    def __init__(self, caja: CajaDeHerramientas, modelo: str | None = None):
+        super().__init__(caja, modelo or self.MODELO_POR_DEFECTO)
+        try:
+            import openai
+        except ImportError as e:
+            raise SystemExit(
+                "Falta el SDK de OpenAI. Instalalo con:\n"
+                "    pip install openai\n"
+                "O usa el backend sin dependencias:\n"
+                "    python scripts/r1/play_r1_ia.py --backend simulado"
+            ) from e
+
+        self._openai = openai
+        # El cliente resuelve las credenciales del entorno (OPENAI_API_KEY).
+        # Nunca escribas la key en el codigo.
+        self.cliente = openai.OpenAI()
+        self.historial: list[dict[str, Any]] = []
+        self.herramientas_api = [
+            {
+                "type": "function",
+                "function": {
+                    "name": h.nombre,
+                    "description": h.descripcion,
+                    "parameters": h.esquema,
+                },
+            }
+            for h in self.caja.listar()
+        ]
+        # Los gpt-5 aceptan reasoning_effort; los anteriores lo rechazan. Un
+        # robot que despacha herramientas quiere latencia, no reflexion:
+        # medido con este catalogo, "minimal" tarda la mitad que "low" y elige
+        # las mismas herramientas. Si alguna vez se equivoca al encadenar
+        # varias, subelo a "low".
+        self._esfuerzo = "minimal" if str(self.modelo).startswith("gpt-5") else None
+
+    def reiniciar_conversacion(self) -> None:
+        self.historial = []
+
+    def _llamar(self):
+        extra = {"reasoning_effort": self._esfuerzo} if self._esfuerzo else {}
+        mensajes = [{"role": "system", "content": INSTRUCCIONES_SISTEMA}] + self.historial
+        try:
+            return self.cliente.chat.completions.create(
+                model=self.modelo,
+                messages=mensajes,
+                tools=self.herramientas_api,
+                tool_choice="auto",
+                **extra,
+            )
+        except self._openai.BadRequestError:
+            if not extra:
+                raise
+            # El modelo no conoce reasoning_effort: lo dejamos de mandar.
+            self._esfuerzo = None
+            return self.cliente.chat.completions.create(
+                model=self.modelo,
+                messages=mensajes,
+                tools=self.herramientas_api,
+                tool_choice="auto",
+            )
+
+    def responder(self, texto_usuario: str) -> RespuestaLLM:
+        self.historial.append({"role": "user", "content": texto_usuario})
+        usadas: list[str] = []
+        textos: list[str] = []
+
+        for _ in range(self.MAX_VUELTAS):
+            try:
+                respuesta = self._llamar()
+            except self._openai.APIStatusError as e:
+                return RespuestaLLM(f"[API {e.status_code}] {e.message}", usadas)
+            except self._openai.APIConnectionError:
+                return RespuestaLLM("[Sin conexion con la API. Revisa la red.]", usadas)
+
+            mensaje = respuesta.choices[0].message
+            if mensaje.content:
+                textos.append(mensaje.content)
+
+            llamadas = mensaje.tool_calls or []
+            entrada: dict[str, Any] = {"role": "assistant", "content": mensaje.content}
+            if llamadas:
+                entrada["tool_calls"] = [
+                    {
+                        "id": c.id,
+                        "type": "function",
+                        "function": {"name": c.function.name,
+                                     "arguments": c.function.arguments},
+                    }
+                    for c in llamadas
+                ]
+            self.historial.append(entrada)
+
+            if not llamadas:
+                break
+
+            for llamada in llamadas:
+                nombre = llamada.function.name
+                try:
+                    argumentos = json.loads(llamada.function.arguments or "{}")
+                except json.JSONDecodeError:
+                    salida = (f"ERROR: los argumentos de '{nombre}' no son JSON "
+                              "valido. Vuelve a llamarla bien formada.")
+                else:
+                    print(f"  [tool] {nombre}({json.dumps(argumentos, ensure_ascii=False)})",
+                          flush=True)
+                    salida = self.caja.despachar(nombre, argumentos)
+                    usadas.append(nombre)
+                self.historial.append({"role": "tool",
+                                       "tool_call_id": llamada.id,
+                                       "content": salida})
+
+        self._recortar_historial()
+        return RespuestaLLM(" ".join(t.strip() for t in textos if t.strip())
+                            or "(sin respuesta de texto)", usadas)
+
+    def _recortar_historial(self, maximo: int = 40) -> None:
+        """Evita que la conversacion crezca sin limite en sesiones largas.
+
+        El corte tiene que caer en un mensaje 'user': si empezara en un 'tool'
+        (o en el 'assistant' que lo pidio), la API rechaza el historial por
+        tener resultados de herramientas huerfanos.
+        """
+        if len(self.historial) <= maximo:
+            return
+        corte = len(self.historial) - maximo
+        while corte < len(self.historial):
+            if self.historial[corte].get("role") == "user":
+                break
+            corte += 1
+        self.historial = self.historial[corte:]
+
+
+# -----------------------------------------------------------------------------
+# Backend 4: PLANTILLA — enchufa aqui la API que elijas
 # -----------------------------------------------------------------------------
 
 
@@ -785,6 +951,7 @@ class BackendPlantilla(BackendLLM):
 BACKENDS: dict[str, type[BackendLLM]] = {
     "simulado": BackendSimulado,
     "anthropic": BackendAnthropic,
+    "openai": BackendOpenAI,
     "plantilla": BackendPlantilla,
 }
 

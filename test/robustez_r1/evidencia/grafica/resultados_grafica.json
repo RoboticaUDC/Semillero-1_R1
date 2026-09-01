@@ -1,0 +1,139 @@
+{
+  "generado": "2026-08-18 18:47:06 -0500",
+  "corridas": [
+    {
+      "corrida": "estabilidad_valida",
+      "modo": "valida",
+      "titulo": "banda_estabilidad_r1: controlador PD, entrada valida",
+      "clase": "ejecuto",
+      "frames": 60,
+      "gif": "evidencia/grafica/estabilidad_valida/animacion.gif",
+      "z_inicial_m": 0.74,
+      "z_final_m": 0.743,
+      "z_min_m": 0.74,
+      "se_cayo": false,
+      "pasos": 601,
+      "veredicto": "se mantuvo de pie"
+    },
+    {
+      "corrida": "estabilidad_xml_roto",
+      "modo": "fixture_roto",
+      "titulo": "banda_estabilidad_r1 con XML de malla inexistente",
+      "defecto": "escena con malla STL que no existe",
+      "clase": "crasheo_esperado",
+      "error": "ValueError: Error: Error opening file '../../../../../assets/r1_description/meshes/NO_EXISTE_pelvis_link.STL'",
+      "traceback": "estabilidad_xml_roto_TRACEBACK.txt"
+    },
+    {
+      "corrida": "camina_valida",
+      "modo": "valida",
+      "titulo": "play_r1_camina_brazos: politica r1_v2, entrada valida",
+      "clase": "ejecuto",
+      "frames": 60,
+      "gif": "evidencia/grafica/camina_valida/animacion.gif",
+      "z_inicial_m": 0.74,
+      "z_final_m": 0.74,
+      "z_min_m": 0.739,
+      "se_cayo": false,
+      "pasos": 602,
+      "veredicto": "se mantuvo de pie"
+    },
+    {
+      "corrida": "camina_estres",
+      "modo": "estres",
+      "titulo": "play_r1_camina_brazos: comando de caminar vx=0.9 (limite)",
+      "clase": "ejecuto",
+      "frames": 180,
+      "gif": "evidencia/grafica/camina_estres/animacion.gif",
+      "z_inicial_m": 0.74,
+      "z_final_m": 0.725,
+      "z_min_m": 0.697,
+      "se_cayo": false,
+      "pasos": 1802,
+      "veredicto": "se mantuvo de pie"
+    },
+    {
+      "corrida": "camina_politica_rota",
+      "modo": "fixture_roto",
+      "titulo": "play_r1_camina_brazos con politica .pt truncada",
+      "defecto": "politica TorchScript truncada a la mitad",
+      "clase": "crasheo_esperado",
+      "error": "RuntimeError: PytorchStreamReader failed reading zip archive: failed finding central directory. This is an internal miniz error. If you are seeing this error, there is a high likelihood that your checkpoint file is corrupted. This can happen if the checkpoint was not saved properly, was transferred incorrectly, or the file was modified after saving.",
+      "traceback": "camina_politica_rota_TRACEBACK.txt"
+    },
+    {
+      "corrida": "isaac_valida",
+      "modo": "valida",
+      "titulo": "play_r1_isaac: politica r1_v2, entrada valida",
+      "clase": "ejecuto",
+      "frames": 60,
+      "gif": "evidencia/grafica/isaac_valida/animacion.gif",
+      "z_inicial_m": 0.74,
+      "z_final_m": 0.74,
+      "z_min_m": 0.739,
+      "se_cayo": false,
+      "pasos": 602,
+      "veredicto": "se mantuvo de pie"
+    },
+    {
+      "corrida": "isaac_estres",
+      "modo": "estres",
+      "titulo": "play_r1_isaac: comando de caminar vx=0.9 (limite)",
+      "clase": "ejecuto",
+      "frames": 180,
+      "gif": "evidencia/grafica/isaac_estres/animacion.gif",
+      "z_inicial_m": 0.74,
+      "z_final_m": 0.729,
+      "z_min_m": 0.698,
+      "se_cayo": false,
+      "pasos": 1802,
+      "veredicto": "se mantuvo de pie"
+    },
+    {
+      "corrida": "isaac_xml_roto",
+      "modo": "fixture_roto",
+      "titulo": "play_r1_isaac con XML mal cerrado",
+      "defecto": "XML de escena sin etiqueta de cierre",
+      "clase": "crasheo_esperado",
+      "error": "ValueError: XML parse error 15:\nError=XML_ERROR_PARSING ErrorID=15 (0xf) Line number=3\n",
+      "traceback": "isaac_xml_roto_TRACEBACK.txt"
+    },
+    {
+      "corrida": "banda_r1_valida",
+      "modo": "valida",
+      "titulo": "banda_r1: AMO+adaptador sobre R1, entrada valida",
+      "clase": "ejecuto",
+      "frames": 60,
+      "gif": "evidencia/grafica/banda_r1_valida/animacion.gif",
+      "z_inicial_m": 0.74,
+      "z_final_m": 0.712,
+      "z_min_m": 0.712,
+      "se_cayo": false,
+      "pasos": 602,
+      "veredicto": "se mantuvo de pie"
+    },
+    {
+      "corrida": "banda_r1_estres",
+      "modo": "estres",
+      "titulo": "banda_r1: comando de caminar vx=0.9 (limite)",
+      "clase": "ejecuto",
+      "frames": 180,
+      "gif": "evidencia/grafica/banda_r1_estres/animacion.gif",
+      "z_inicial_m": 0.74,
+      "z_final_m": 0.086,
+      "z_min_m": 0.073,
+      "se_cayo": true,
+      "pasos": 1802,
+      "veredicto": "SE CAYO / inestable"
+    },
+    {
+      "corrida": "banda_r1_stats_rotos",
+      "modo": "fixture_roto",
+      "titulo": "banda_r1 con stats de normalizacion sin 'input_std'",
+      "defecto": "adapter_norm_stats sin la clave input_std",
+      "clase": "crasheo_esperado",
+      "error": "KeyError: 'input_std'",
+      "traceback": "banda_r1_stats_rotos_TRACEBACK.txt"
+    }
+  ]
+}

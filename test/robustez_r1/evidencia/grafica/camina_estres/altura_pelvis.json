@@ -1,0 +1,9 @@
+{
+  "frames": 180,
+  "gif": "evidencia/grafica/camina_estres/animacion.gif",
+  "z_inicial_m": 0.74,
+  "z_final_m": 0.725,
+  "z_min_m": 0.697,
+  "se_cayo": false,
+  "pasos": 1802
+}

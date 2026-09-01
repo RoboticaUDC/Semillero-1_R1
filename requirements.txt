@@ -3,3 +3,9 @@ mujoco==3.2.3
 mujoco-python-viewer==0.1.4
 glfw==2.9.0
 torch==2.3.1
+
+
+
+DISPLAY=:1 MUJOCO_GL=glfw conda run -n r1mujoco python test/robustez_r1/captura_grafica_g1.py
+
+

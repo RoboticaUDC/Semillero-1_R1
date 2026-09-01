@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "{\"vx\": 1000000000.0, \"duracion_s\": 3}",
+  "defecto": "Velocidad muy por encima de VEL_MAX=1.0."
+}

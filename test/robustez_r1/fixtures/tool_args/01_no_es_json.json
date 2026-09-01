@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "vx=0.5, duracion=3",
+  "defecto": "El LLM devuelve texto plano en vez de JSON."
+}

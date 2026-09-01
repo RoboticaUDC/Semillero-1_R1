@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica_g1.py", line 168, in corr_play_amo_stable
+    env = mod.HumanoidEnv()
+  File "/home/idc/AMO/scripts/g1/play_amo_stable.py", line 171, in __init__
+    self.model = mujoco.MjModel.from_xml_path(scene("g1"))
+ValueError: XML parse error 15:
+Error=XML_ERROR_PARSING ErrorID=15 (0xf) Line number=3
+

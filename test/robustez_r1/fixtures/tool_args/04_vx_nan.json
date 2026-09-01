@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "{\"vx\": NaN, \"duracion_s\": 3}",
+  "defecto": "NaN literal: json.loads de Python lo acepta aunque no es JSON estandar."
+}

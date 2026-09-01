@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica_g1.py", line 215, in corr_banda_v2_1
+    env.run()
+  File "/home/idc/AMO/scripts/g1/banda_v2_1.py", line 270, in run
+    (1 - alpha) * current
+ValueError: operands could not be broadcast together with shapes (8,) (10,) 

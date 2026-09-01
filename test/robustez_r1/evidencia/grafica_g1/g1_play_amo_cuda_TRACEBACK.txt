@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica_g1.py", line 242, in corr_play_amo
+    mod = _cargar("play_amo", "scripts/g1/play_amo.py")
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica_g1.py", line 95, in _cargar
+    spec.loader.exec_module(mod)
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/idc/AMO/scripts/g1/play_amo.py", line 24, in <module>
+    print(torch.cuda.get_device_name(0))
+  File "/home/idc/miniconda3/envs/r1mujoco/lib/python3.10/site-packages/torch/cuda/__init__.py", line 666, in get_device_name
+    return get_device_properties(device).name
+  File "/home/idc/miniconda3/envs/r1mujoco/lib/python3.10/site-packages/torch/cuda/__init__.py", line 699, in get_device_properties
+    _lazy_init()  # will define _get_device_properties
+  File "/home/idc/miniconda3/envs/r1mujoco/lib/python3.10/site-packages/torch/cuda/__init__.py", line 484, in _lazy_init
+    raise AssertionError("Torch not compiled with CUDA enabled")
+AssertionError: Torch not compiled with CUDA enabled

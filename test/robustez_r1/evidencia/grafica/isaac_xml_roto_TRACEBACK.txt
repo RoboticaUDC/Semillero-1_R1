@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica.py", line 209, in corrida_rota
+    env = construir()
+  File "/home/idc/AMO/test/robustez_r1/captura_grafica.py", line 276, in <lambda>
+    lambda: iz.R1IsaacPolicyEnv(xml_path=XML_ROTO_CERRADO, device="cpu"),
+  File "/home/idc/AMO/scripts/r1/play_r1_isaac.py", line 126, in __init__
+    self.model = mujoco.MjModel.from_xml_path(xml_path)
+ValueError: XML parse error 15:
+Error=XML_ERROR_PARSING ErrorID=15 (0xf) Line number=3
+

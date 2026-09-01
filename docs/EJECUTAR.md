@@ -10,10 +10,12 @@ Hay dos, con versiones incompatibles entre sí. Antes de cada comando, activa el
 
 | Entorno | Para qué | Cómo se crea |
 |---|---|---|
-| `amo` | scripts de `scripts/g1/` (código original del paper) | `conda create -n amo python=3.8 && pip install -r requirements.txt` |
+| `robotica` | scripts de `scripts/g1/` (código original del paper) | `conda create -n robotica python=3.11 && pip install -r requirements.txt` |
 | `r1mujoco` | todo lo del R1: `scripts/r1/`, `scripts/teleop/`, `scripts/tools/` | `conda create -n r1mujoco python=3.10 && pip install -r requirements-r1.txt` |
 
 Isaac Lab (`scripts/tools/check_r1*.py`) usa su propio entorno, `isaaclab_clean`.
+
+El detalle de la instalación está en [INSTALACION.md](INSTALACION.md).
 
 ---
 
@@ -22,11 +24,14 @@ Isaac Lab (`scripts/tools/check_r1*.py`) usa su propio entorno, `isaaclab_clean`
 ### `scripts/g1/play_amo.py` — política AMO completa
 
 ```bash
-conda activate amo && python scripts/g1/play_amo.py
+conda activate robotica && python scripts/g1/play_amo.py
 ```
 
-Teclas: `↑`/`↓` vx · `←`/`→` giro · `Q`/`E` vy lateral · `Z`/`X` altura del torso
-(rango [-0.5, 0.8]) · `J`/`U` torso yaw · `K`/`I` torso pitch · `L`/`O` torso roll.
+Teclas (verificadas contra [play_amo.py:97](../scripts/g1/play_amo.py:97) — **no
+usa las flechas**): `W`/`S` vx [±0.5] · `A`/`D` vy lateral [±0.4] · `Q`/`E` giro
+[±1.0] · `Z`/`X` altura del torso [-0.5, 0.8] · `I`/`K` torso pitch [-0.52, 1.57] ·
+`O`/`L` torso roll [±0.7] · `U`/`J` torso yaw [±1.57] · `ESPACIO` comandos a cero ·
+`ESC` salir.
 
 ### `scripts/g1/play_amo_stable.py` — solo PD, sin IA
 
@@ -34,13 +39,17 @@ Mantiene al G1 de pie con control de posición puro. Útil para verificar que el
 modelo y la pose base están bien antes de meter la política.
 
 ```bash
-conda activate amo && python scripts/g1/play_amo_stable.py
+conda activate robotica && python scripts/g1/play_amo_stable.py
 ```
+
+Teclas: `W`/`S` vx [±0.5] · `A`/`D` vy lateral [±0.4] · `Q`/`E` giro [±1.0] ·
+`Z`/`X` altura [+0.15, -0.10] · `ESPACIO` comandos a cero · `ESC` salir. No tiene
+control de pitch ni de roll del torso.
 
 ### `scripts/g1/banda_v2_1.py` — G1 + gestos de brazo
 
 ```bash
-conda activate amo && python scripts/g1/banda_v2_1.py
+conda activate robotica && python scripts/g1/banda_v2_1.py
 ```
 
 Teclas: `F1` saludar · `F6` neutral · `ESC` salir.
@@ -82,8 +91,18 @@ y brazo con gripper de ventosas.
 conda activate r1mujoco && python scripts/r1/banda_r1.py
 ```
 
-Teclas: movimiento igual que `play_amo.py`, más `V` LIDAR · `M` mapa · `B` volcar
-lecturas del LIDAR · `C` limpiar mapa · `P` cámara · `F1`–`F8` gestos de brazo.
+Teclas — **usa las flechas, no `W`/`S`** (`W`/`S` aquí mueven el brazo manual):
+
+- Locomoción: `↑`/`↓` vx · `←`/`→` vy lateral · `Q`/`E` giro · `Z`/`X` altura del
+  torso · `J`/`U` torso yaw · `K`/`I` torso pitch · `L`/`O` torso roll ·
+  `ESPACIO` comandos a cero · `ENTER` pausar/reanudar · `ESC` salir.
+- Sensores: `V` LIDAR · `M` mapa · `B` volcar lecturas del LIDAR · `C` limpiar mapa ·
+  `P` cámara.
+- Gestos: `F1`–`F6` (saludar, apuntar, cargar, cruz, guardia, neutral) · `F7`
+  pausar el gesto · `F8` imprimir la pose actual · `RETROCESO` brazos aleatorios.
+- Bandas: `1`/`2`/`3` banda 1 adelante/atrás/parada · `4`/`5`/`6` banda 2.
+- Brazo manual: `R`/`F`, `T`/`G`, `Y`/`H`, `W`/`S`, `A`/`D` mueven sus cinco
+  articulaciones · `N` pose de reposo · `,` pose de recoger · `.` pose de soltar.
 
 ### `scripts/r1/banda_estabilidad_r1.py` — solo balance
 
@@ -96,7 +115,74 @@ conda activate r1mujoco && python scripts/r1/banda_estabilidad_r1.py
 
 ---
 
-## 3. Teleoperación con cámara
+## 3. R1 con lenguaje natural y voz
+
+### `scripts/r1/play_r1_ia.py` — hablarle en lenguaje natural
+
+Todo lo de `play_r1_camina_brazos.py` más un agente conversacional: le escribes
+"camina despacio hacia adelante 3 segundos y saluda" y lo ejecuta. También contesta
+preguntas sobre su propio estado ("¿dónde estás?", "¿qué estás haciendo?").
+
+```bash
+conda activate r1mujoco && python scripts/r1/play_r1_ia.py
+```
+
+Sin argumentos usa el backend `simulado`: reglas por palabras clave, sin red ni API
+key. Funciona tal cual.
+
+```bash
+conda activate r1mujoco && python scripts/r1/play_r1_ia.py --backend openai
+```
+
+| Argumento | Qué hace |
+|---|---|
+| `--backend {simulado,openai,anthropic,plantilla}` | qué LLM usa. Por defecto, `AMO_LLM_BACKEND` del `.env` o `simulado` |
+| `--modelo NOMBRE` | modelo concreto del proveedor |
+| `--sin-sim` | prueba solo el cableado del LLM, sin levantar MuJoCo |
+| `--device {cpu,cuda}` | dónde corre la política. La red es minúscula, `cpu` sobra |
+
+El teclado sigue funcionando entero y **tiene prioridad**: `ESPACIO` cancela
+cualquier cosa que haya mandado el LLM. Es el freno de emergencia.
+
+### `scripts/r1/play_r1_voz.py` — voz en español, manos y cámara
+
+Lo más completo del repositorio: `play_r1_ia.py` + las manos Revo2 (`r1_manos.xml`)
++ reconocimiento de voz con Vosk + respuestas habladas con Piper, todo offline. La
+consola sigue funcionando en paralelo: puedes hablarle o escribirle, y contesta por
+texto y por voz.
+
+```bash
+conda activate r1mujoco && python scripts/r1/play_r1_voz.py
+```
+
+```bash
+conda activate r1mujoco && python scripts/r1/play_r1_voz.py --brazos-camara --dedos-camara --ver-camara
+```
+
+| Argumento | Qué hace |
+|---|---|
+| `--backend`, `--modelo`, `--sin-sim`, `--device` | igual que en `play_r1_ia.py` |
+| `--sin-tts` | no habla, solo escribe |
+| `--sin-mic` | no escucha, solo consola |
+| `--palabra-clave PALABRA` | solo atiende frases que empiecen por esa palabra |
+| `--mic-device N` / `--altavoz-device ALSA` | elegir dispositivos de audio |
+| `--sin-manos` | el R1 de antes, sin manos (`r1.xml`) |
+| `--dedos-camara` | los dedos copian tu mano por la cámara |
+| `--brazos-camara` | los brazos y la cintura copian los tuyos (MediaPipe + IK) |
+| `--sin-cintura` | brazos sí, giro de torso no |
+| `--camara FUENTE` | índice de webcam (`0`) o URL. Por defecto, DroidCam en `127.0.0.1:4747` |
+| `--ver-camara` | abre la ventana con los landmarks dibujados |
+| `--sin-espejo` | te copia lado a lado en vez de como un espejo |
+
+Necesita los modelos de voz en `modelos_voz/` — ver [INSTALACION.md](INSTALACION.md).
+
+Los dedos se mueven de tres formas, en este orden de prioridad: **cámara** (si está
+activa), **gestos** de brazo (cada uno lleva su pose de dedos coordinada) y **voz**
+directa ("cierra la mano derecha", "haz una pinza", "pulgar arriba").
+
+---
+
+## 4. Teleoperación con cámara
 
 Ambos usan MediaPipe. Ponte de frente a la cámara, a ~2 m, que se te vea de la
 cintura para arriba.
@@ -142,7 +228,7 @@ conda activate r1mujoco && python scripts/tools/test_pose.py
 
 ---
 
-## 4. Herramientas
+## 5. Herramientas
 
 ### `scripts/tools/calibrar_brazos.py` — descubrir el sentido de cada joint
 
@@ -188,7 +274,7 @@ Sin argumentos usa el último run conocido y sobrescribe `policies/r1_policy_v2.
 
 ---
 
-## 5. C++
+## 6. C++
 
 ### `cpp/mujoco/` — versión C++ de la simulación
 
@@ -256,7 +342,29 @@ python scripts/deploy/saludo_g1_real.py eth0     # robot real
 
 ---
 
-## 6. Versiones anteriores
+## 7. Versiones anteriores
 
 `legacy/` conserva las versiones superadas, con las rutas ya actualizadas. Ver
 [legacy/README.md](../legacy/README.md) para saber qué reemplazó a qué.
+
+---
+
+## 8. Pruebas
+
+```bash
+conda run -n r1mujoco python test/robustez_r1/arnes_robustez.py
+```
+
+```bash
+DISPLAY=:1 MUJOCO_GL=glfw conda run -n r1mujoco python test/robustez_r1/captura_grafica.py
+```
+
+```bash
+DISPLAY=:1 conda run -n r1mujoco python test/robustez_r1/ver_en_vivo.py banda_r1_cae
+```
+
+```bash
+conda run -n robotica python test/G1/evidencia_g1/render_g1.py
+```
+
+Ver [PRUEBAS.md](PRUEBAS.md) para qué mide cada una y qué encontraron.

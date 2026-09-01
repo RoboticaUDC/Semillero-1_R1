@@ -1,0 +1,99 @@
+==============================================================================
+ARNES DE ROBUSTEZ R1 / G1 — fixtures defectuosos contra el codigo real
+==============================================================================
+
+--- bloque_env ---
+[ ctrl] env            -   01_sin_signo_igual.env           -> rechazado_controlado
+[  ok ] env            -   02_clave_con_espacios.env        -> aceptado
+[  ok ] env            -   03_valor_entre_comillas.env      -> aceptado
+[  ok ] env            -   04_clave_duplicada.env           -> aceptado
+[ ctrl] env            -   05_bom_utf8.env                  -> rechazado_controlado
+[  ok ] env            -   06_crlf_windows.env              -> aceptado
+[  ok ] env            -   07_comentario_inline.env         -> aceptado
+[ BOOM] env            -   08_binario.env                   -> excepcion_no_controlada
+[  ok ] env            -   09_valor_vacio.env               -> aceptado
+[  ok ] env            -   10_multilinea.env                -> aceptado
+[ BOOM] env            -   11_latin1.env                    -> excepcion_no_controlada
+
+--- bloque_estado_json ---
+[  ok ] estado_json    -   00_valido.json                   -> aceptado
+[ ctrl] estado_json    -   01_truncado.json                 -> rechazado_controlado
+[ ctrl] estado_json    -   02_fence_markdown.json           -> rechazado_controlado
+[ BOOM] estado_json    -   03_falta_posicion_m.json         -> excepcion_no_controlada
+[ BOOM] estado_json    -   04_posicion_2_elementos.json     -> excepcion_no_controlada
+[ BOOM] estado_json    -   05_tipos_string.json             -> excepcion_no_controlada
+[ ctrl] estado_json    -   06_coma_final.json               -> rechazado_controlado
+[ BOOM] estado_json    -   07_velocidad_null.json           -> excepcion_no_controlada
+[ ctrl] estado_json    -   08_vacio.json                    -> rechazado_controlado
+[  ok ] estado_json    -   09_nan_literal.json              -> aceptado
+[ BOOM] estado_json    -   10_lista_no_objeto.json          -> excepcion_no_controlada
+[ BOOM] estado_json    -   11_posicion_4_elementos.json     -> excepcion_no_controlada
+[  ok ] estado_json    -   12_gesto_no_string.json          -> aceptado
+
+--- bloque_tool_args ---
+[  ok ] tool_args      -   00_valido.json                   -> aceptado
+[ ctrl] tool_args      -   01_no_es_json.json               -> rechazado_controlado
+[  ok ] tool_args      -   02_falta_required.json           -> aceptado
+[ ctrl] tool_args      -   03_vx_string.json                -> rechazado_controlado
+[  ok ] tool_args      -   04_vx_nan.json                   -> aceptado
+[  ok ] tool_args      -   05_vx_fuera_rango.json           -> aceptado
+[  ok ] tool_args      -   06_duracion_negativa.json        -> aceptado
+[  ok ] tool_args      -   07_duracion_infinita.json        -> aceptado
+[ ctrl] tool_args      -   08_argumento_desconocido.json    -> rechazado_controlado
+[ ctrl] tool_args      -   09_herramienta_inexistente.json  -> rechazado_controlado
+[ ctrl] tool_args      -   10_gesto_invalido.json           -> rechazado_controlado
+[ ctrl] tool_args      -   11_gesto_null.json               -> rechazado_controlado
+[  ok ] tool_args      -   12_args_vacio.json               -> aceptado
+[  ok ] tool_args      -   13_args_null.json                -> aceptado
+[ ctrl] tool_args      -   14_args_lista.json               -> rechazado_controlado
+[ ctrl] tool_args      -   15_inyeccion_en_gesto.json       -> rechazado_controlado
+[  ok ] tool_args      -   16_clave_duplicada.json          -> aceptado
+[ ctrl] tool_args      -   17_numeros_como_string.json      -> rechazado_controlado
+
+--- bloque_escenas ---
+[  ok ] escenas        r1  00_valido.xml                    -> aceptado
+[ ctrl] escenas        r1  01_xml_mal_cerrado.xml           -> rechazado_controlado
+[ ctrl] escenas        r1  02_malla_inexistente.xml         -> rechazado_controlado
+[ ctrl] escenas        r1  03_vacio.xml                     -> rechazado_controlado
+[ ctrl] escenas        r1  04_no_es_xml.xml                 -> rechazado_controlado
+[  ok ] escenas        r1  05_joint_rango_invertido.xml     -> aceptado
+[ ctrl] escenas        r1  06_joint_duplicado.xml           -> rechazado_controlado
+[ ctrl] escenas        r1  07_atributo_no_numerico.xml      -> rechazado_controlado
+[  ok ] escenas        r1  08_timestep_negativo.xml         -> aceptado
+[  ok ] escenas        g1  00_valido.xml                    -> aceptado
+[ ctrl] escenas        g1  01_xml_mal_cerrado.xml           -> rechazado_controlado
+[ ctrl] escenas        g1  02_malla_inexistente.xml         -> rechazado_controlado
+[ ctrl] escenas        g1  03_vacio.xml                     -> rechazado_controlado
+[ ctrl] escenas        g1  04_no_es_xml.xml                 -> rechazado_controlado
+[  ok ] escenas        g1  05_joint_rango_invertido.xml     -> aceptado
+[ ctrl] escenas        g1  06_joint_duplicado.xml           -> rechazado_controlado
+[ ctrl] escenas        g1  07_atributo_no_numerico.xml      -> rechazado_controlado
+[  ok ] escenas        g1  08_timestep_negativo.xml         -> aceptado
+
+--- bloque_politicas ---
+[ ctrl] politicas      r1  01_no_es_pt.pt                   -> rechazado_controlado
+[ ctrl] politicas      r1  02_vacio.pt                      -> rechazado_controlado
+[ ctrl] politicas      r1  03_truncado.pt                   -> rechazado_controlado
+[ ctrl] politicas      r1  04_state_dict_no_jit.pt          -> rechazado_controlado
+[ ctrl] politicas      r1  05_pickle_ajeno.pt               -> rechazado_controlado
+[ ctrl] politicas      g1  01_no_es_pt.pt                   -> rechazado_controlado
+[ ctrl] politicas      g1  02_vacio.pt                      -> rechazado_controlado
+[ ctrl] politicas      g1  03_truncado.pt                   -> rechazado_controlado
+[ ctrl] politicas      g1  04_state_dict_no_jit.pt          -> rechazado_controlado
+[ ctrl] politicas      g1  05_pickle_ajeno.pt               -> rechazado_controlado
+[  ok ] stats_norm     g1/r1 stats_00_valido.pt               -> aceptado
+[ ctrl] stats_norm     g1/r1 stats_01_falta_input_std.pt      -> rechazado_controlado
+[ ctrl] stats_norm     g1/r1 stats_02_std_con_ceros.pt        -> rechazado_controlado
+[ ctrl] stats_norm     g1/r1 stats_03_dim_incorrecta.pt       -> rechazado_controlado
+[ ctrl] stats_norm     g1/r1 stats_04_valores_nan.pt          -> rechazado_controlado
+[ ctrl] stats_norm     g1/r1 stats_05_no_es_dict.pt           -> rechazado_controlado
+
+==============================================================================
+TOTAL: 76 casos en 0.59s
+   aceptado                  : 26
+   excepcion_no_controlada   : 8
+   rechazado_controlado      : 42
+
+Evidencia:
+   /home/idc/AMO/test/robustez_r1/evidencia/informe.md
+   /home/idc/AMO/test/robustez_r1/evidencia/resultados.json

@@ -1,0 +1,64 @@
+{
+  "generado": "2026-08-18 19:02:51 -0500",
+  "corridas": [
+    {
+      "corrida": "g1_stable_valida",
+      "titulo": "play_amo_stable quieto (sin comando)",
+      "modo": "valida",
+      "clase": "ejecuto",
+      "frames": 40,
+      "gif": "evidencia/grafica_g1/g1_stable_valida/animacion.gif",
+      "z_inicial_m": 0.793,
+      "z_final_m": 0.759,
+      "z_min_m": 0.753,
+      "se_cayo": false,
+      "pasos": 400,
+      "veredicto": "camina/se mantiene de pie"
+    },
+    {
+      "corrida": "g1_stable_camina",
+      "titulo": "play_amo_stable caminando vx=0.5",
+      "modo": "estres",
+      "clase": "ejecuto",
+      "frames": 40,
+      "gif": "evidencia/grafica_g1/g1_stable_camina/animacion.gif",
+      "z_inicial_m": 0.793,
+      "z_final_m": 0.759,
+      "z_min_m": 0.753,
+      "se_cayo": false,
+      "pasos": 400,
+      "veredicto": "camina/se mantiene de pie"
+    },
+    {
+      "corrida": "g1_stable_xml_roto",
+      "titulo": "play_amo_stable con XML de escena roto",
+      "modo": "valida",
+      "clase": "crasheo_esperado",
+      "error": "ValueError: XML parse error 15:\nError=XML_ERROR_PARSING ErrorID=15 (0xf) Line number=3\n",
+      "frames": 0
+    },
+    {
+      "corrida": "g1_banda_valida",
+      "titulo": "banda_v2_1 equilibrio, entrada valida",
+      "modo": "valida",
+      "clase": "crasheo",
+      "error": "ValueError: operands could not be broadcast together with shapes (8,) (10,) ",
+      "frames": 0
+    },
+    {
+      "corrida": "g1_banda_xml_roto",
+      "titulo": "banda_v2_1 con XML de escena roto",
+      "modo": "fixture_roto",
+      "clase": "crasheo_esperado",
+      "error": "ValueError: XML parse error 15:\nError=XML_ERROR_PARSING ErrorID=15 (0xf) Line number=3\n",
+      "frames": 0
+    },
+    {
+      "corrida": "g1_play_amo_cuda",
+      "titulo": "play_amo: politica AMO real (exige GPU)",
+      "modo": "requisito_gpu",
+      "clase": "no_ejecutable",
+      "error": "AssertionError: Torch not compiled with CUDA enabled"
+    }
+  ]
+}

@@ -20,3 +20,7 @@ opencv-contrib-python==5.0.0.93
 
 # solo para banda_r1.py (visualizacion del LIDAR y el mapa)
 matplotlib==3.10.9
+
+# solo para play_r1_ia.py / play_r1_voz.py con --backend openai
+# (la key va en el .env de la raiz, nunca aqui)
+openai==3.0.0

@@ -1,0 +1,5 @@
+{
+  "herramienta": "mover",
+  "argumentos_crudos": "{\"velocidad\": 0.5, \"duracion_s\": 2}",
+  "defecto": "Nombre de argumento inventado ('velocidad' en vez de 'vx')."
+}
